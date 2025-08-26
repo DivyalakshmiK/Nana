@@ -1,78 +1,67 @@
-import { useState } from 'react'
+import React from "react";
+import { motion } from "framer-motion";
+import { Home } from "lucide-react";
+import treeImg from "../assets/tree.jpeg";
+import catImg from "../assets/catt.png";
 
-function Landing() {
-  const [activeFig, setActiveFig] = useState(null)
-  
+export default function Landing() {
   const figs = [
-    { id: 1, x: '20%', y: '40%', text: 'Projects' },
-    { id: 2, x: '30%', y: '30%', text: 'About' },
-    { id: 3, x: '25%', y: '50%', text: 'Skills' },
-    { id: 4, x: '35%', y: '45%', text: 'Contact' }
-  ]
-
-  const quote = {
-    text: "In the garden of code, ideas bloom like figs – each one unique, each one promising.",
-    author: "- A Digital Dreamer"
-  }
+    { top: "28%", left: "45%" },
+    { top: "42%", left: "63%" },
+    { top: "58%", left: "38%" },
+    { top: "22%", left: "68%" },
+    { top: "50%", left: "52%" },
+  ];
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 overflow-hidden">
+    <div className="relative w-full h-screen bg-gradient-to-tr from-gray-950 via-purple-950 to-gray-900 overflow-hidden font-sans text-white">
       {/* Home Icon */}
-      <div className="absolute top-6 left-6 text-amber-50/80 hover:text-amber-50 transition-colors cursor-pointer">
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-        </svg>
+      <div className="absolute top-4 left-4 z-20 p-2 bg-purple-700/30 rounded-full backdrop-blur-md shadow-md hover:bg-purple-600/50 transition">
+        <Home className="w-7 h-7 text-purple-300 hover:text-purple-200 transition" />
       </div>
 
-      {/* Fig Tree and Figs */}
-      <div className="absolute bottom-0 left-0 w-2/5 h-full">
-        {/* Tree Trunk - using CSS gradient for a simple trunk effect */}
-        <div className="absolute bottom-0 left-12 w-8 h-3/4 bg-gradient-to-t from-amber-900 to-amber-800 rounded-t-full"></div>
-        
-        {/* Figs */}
-        {figs.map((fig) => (
-          <button
-            key={fig.id}
-            style={{ left: fig.x, top: fig.y }}
-            className={`absolute w-12 h-12 rounded-full transition-all duration-300 transform
-              ${activeFig === fig.id ? 'scale-110' : 'scale-100'}
-              bg-purple-600 hover:bg-purple-500
-              shadow-[0_0_15px_rgba(168,85,247,0.5)]
-              hover:shadow-[0_0_25px_rgba(168,85,247,0.8)]
-              cursor-pointer`}
-            onClick={() => setActiveFig(fig.id)}
-          >
-            <span className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-amber-50/90 whitespace-nowrap">
-              {fig.text}
-            </span>
-          </button>
-        ))}
+      {/* Tree Illustration */}
+      <div className="absolute bottom-0 left-0 w-[50vw] z-10">
+        <img src={treeImg} alt="Tree" className="w-full h-auto" />
+
+        {/* Glowing Figs */}
+        <div className="absolute inset-0">
+          {figs.map((pos, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-7 h-7 rounded-full cursor-pointer bg-gradient-to-tr from-purple-400 to-purple-700 shadow-[0_0_25px_rgba(168,85,247,0.9)]"
+              style={{ top: pos.top, left: pos.left }}
+              animate={{ scale: [1, 1.3, 1], opacity: [0.6, 1, 0.6] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            />
+          ))}
+        </div>
       </div>
 
       {/* Quote */}
-      <div className="absolute top-1/4 right-12 max-w-md text-right">
-        <p className="text-2xl font-light text-amber-50/90 italic leading-relaxed">
-          {quote.text}
-        </p>
-        <p className="mt-4 text-amber-50/70">
-          {quote.author}
-        </p>
+      <div className="absolute right-24 top-1/3 max-w-lg text-left z-20">
+        <motion.p
+          className="text-3xl italic font-semibold text-purple-200 leading-relaxed drop-shadow-lg"
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 1 }}
+        >
+          "Growth is not always loud.  
+          Sometimes, it’s a quiet reaching toward the light."
+        </motion.p>
       </div>
 
-      {/* Cat */}
-      <div className="absolute bottom-8 right-12">
-        <div className="w-16 h-16 bg-amber-800 rounded-full relative">
-          {/* Cat ears */}
-          <div className="absolute -top-4 left-2 w-4 h-8 bg-amber-800 rounded-t-full transform -rotate-6"></div>
-          <div className="absolute -top-4 right-2 w-4 h-8 bg-amber-800 rounded-t-full transform rotate-6"></div>
-          {/* Cat face */}
-          <div className="absolute top-4 left-4 w-2 h-2 bg-amber-50 rounded-full"></div>
-          <div className="absolute top-4 right-4 w-2 h-2 bg-amber-50 rounded-full"></div>
-          <div className="absolute top-6 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-amber-900 rounded-full"></div>
-        </div>
+      {/* Cat Illustration */}
+      <div className="absolute bottom-8 right-12 z-20">
+        <motion.img
+          src={catImg}
+          alt="Cat"
+          className="w-40 h-auto drop-shadow-2xl"
+          initial={{ y: 10 }}
+          animate={{ y: [0, -8, 0] }}
+          transition={{ duration: 3, repeat: Infinity }}
+        />
       </div>
     </div>
-  )
+  );
 }
-
-export default Landing
